@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Party Leads for ED
+{% endblock %}
+
+{% block main %}
+        
+    <div class="container">
+        <form action="/partyleads" method="post">
+            <div class="mb-3">
+
+                <input class="form-control mb-3" autofocus type="number" name="user" placeholder="Your Level" value="{{ selectedLevel|default('',True) }}">
+            </div>
+            <div class="mb-3">
+                <select class="form-select" name="voc" id="voc">
+                    <option value="" disabled {% if not selectedVoc %} Selected {% endif %}>Which vocation you want to party with:</option>
+                    <option value="All" {% if selectedVoc == 'All' %} Selected {% endif %}>Any</option>
+                    <option value="Elite Knight" {% if selectedVoc == "Elite Knight" %} Selected {% endif %}>Elite Knight</option>
+                    <option value="Royal Paladin" {% if selectedVoc == "Royal Paladin" %} Selected {% endif %}>Royal Paladin</option>
+                    <option value="Elder Druid" {% if selectedVoc == "Elder Druid" %} Selected {% endif %}>Elder Druid</option>
+                    <option value="Master Sorcerer" {% if selectedVoc == "Master Sorcerer" %} Selected {% endif %}>Master Sorcerer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <select class="form-select" name="world" id="world">
+                    <option value="" disabled {% if not selectedVoc %} Selected {% endif %}>Which world are you in?</option>
+                    
+                    <option value="Elite Knight" {% if selectedVoc == "Elite Knight" %} Selected {% endif %}>Elite Knight</option>
+                    
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Check users online to share exp</button>
+        </form>
+    </div>
+
+    
+
+
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Href</th>
+            <th>Lvl</th>
+            <th>Voc</th>
+            <th>World</th>
+        </tr>
+        {% for x in data %}
+        <tr>
+            <td>{{ x['name'] }}</td>
+            <td> <a href="{{ x['href'] }}" target="_blank">{{ x['href'] }}</a></td>
+            <td>{{ x['level'] }}</td>
+            <td>{{ x['vocation'] }}</td>
+            <td>{{ x['world'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+    
+
+
+
+{% endblock %}
+

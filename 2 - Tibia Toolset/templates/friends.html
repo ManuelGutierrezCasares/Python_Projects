@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Friends Online
+{% endblock %}
+
+{% block main %}
+
+    <!-- <h1>Check which friends are Online</h1>
+
+    <div class="container">
+        <form action="/friends" method="post">
+            <div class="mb-3">
+                <input class="form-control mb-3" autofocus type="text" name="friendName" placeholder="Friend's name">
+            </div>
+            <button type="submit">Add Friend!</button>
+        </form>
+    </div> -->
+
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Href</th>
+            <th>Lvl</th>
+            <th>Voc</th>
+            <th>World</th>
+        </tr>
+        {% for x in data %}
+        <tr>
+            <td>{{ x['name'] }}</td>
+            <td> <a href="{{ x['href'] }}" target="_blank">{{ x['href'] }}</a></td>
+            <td>{{ x['level'] }}</td>
+            <td>{{ x['vocation'] }}</td>
+            <td>{{ x['world'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+    
+
+
+
+{% endblock %}
+

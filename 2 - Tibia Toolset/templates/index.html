@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All online players
+{% endblock %}
+
+{% block main %}
+
+    Amount of chars ingame: {{ players }}
+
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Href</th>
+            <th>Lvl</th>
+            <th>Voc</th>
+            <th>World</th>
+        </tr>
+        {% for x in data %}
+        <tr>
+            <td>{{ x['name'] }}</td>
+            <td> <a href="{{ x['href'] }}" target="_blank">{{ x['href'] }}</a></td>
+            <td>{{ x['level'] }}</td>
+            <td>{{ x['vocation'] }}</td>
+            <td>{{ x['world'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+    
+
+
+
+{% endblock %}
+
