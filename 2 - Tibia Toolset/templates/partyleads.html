@@ -10,7 +10,7 @@
         <form action="/partyleads" method="post">
             <div class="mb-3">
 
-                <input class="form-control mb-3" autofocus type="number" name="user" placeholder="Your Level" value="{{ selectedLevel|default('',True) }}">
+                <input class="form-control mb-3" autofocus autocomplete="off" type="number" name="user" placeholder="Your Level" value="{{ selectedLevel|default('',True) }}">
             </div>
             <div class="mb-3">
                 <select class="form-select" name="voc" id="voc">
@@ -24,10 +24,14 @@
             </div>
             <div class="mb-3">
                 <select class="form-select" name="world" id="world">
-                    <option value="" disabled {% if not selectedVoc %} Selected {% endif %}>Which world are you in?</option>
-                    
-                    <option value="Elite Knight" {% if selectedVoc == "Elite Knight" %} Selected {% endif %}>Elite Knight</option>
-                    
+                    <option value="" disabled {% if not selectedWorld %} Selected {% endif %}>Which world are you in?</option>                    
+                    {% for x in worlds %}
+                        {% if selectedWorld == x['worldName'] %}
+                        <option value="{{ x['worldName'] }}" selected>{{ x['worldName'] }}</option>
+                        {% else %}
+                        <option value="{{ x['worldName'] }}">{{ x['worldName'] }}</option>
+                        {% endif %}
+                    {% endfor %}
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Check users online to share exp</button>

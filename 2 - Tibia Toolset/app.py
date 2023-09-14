@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, session
 import json
 import math
-#import static.schedule
-from static.getCharacters import worldsList
+import static.schedule
 
 
 """
@@ -13,7 +12,8 @@ v0.3    Add feature to /partyleads where you can select vocation and lvl to get 
 v0.4    Add schedule.py and scheduler to getCharacters.py so you don't have to run that file on every call to any route
 v0.5    Factorize getCharacters so it get all character from all worlds, not just Collabra
 v0.6    Done on scheduler and error 403 on multiple requests
-v0.7    
+v0.7    Added support to run locally
+v0.8    Refactorizing to getWorlds.py and getCharacters.py, instead of all in one python script; and refactorizing schedule to only run getWorlds when necessary; and added world support to partyleads route
 """
 
 app = Flask(__name__)
@@ -25,8 +25,6 @@ app.secret_key = 'THIS_IS_THE_KEY'
 
 @app.route("/")
 def index():
-    #importlib.reload(getCharacters)
-    print(worldsList)
     data = open("data/data.json","r")
     data_dict = json.load(data)
     players = len(data_dict)
@@ -34,10 +32,9 @@ def index():
     return render_template("index.html", data = data_dict, players = players)
 
 @app.route("/partyleads", methods=["GET", "POST"])
-def partyed():
+def party():
     
     if request.method == "POST":
-        #importlib.reload(getCharacters)
 
         userLvl = request.form.get("user")
         try:
@@ -49,27 +46,32 @@ def partyed():
 
         userElection = request.form.get('voc')
 
+        userWorld = request.form.get('world')
 
         party = []
         data = open("data/data.json","r")
         data_dict = json.load(data)
+        worlds = open("data/worlds.json","r")
+        worlds_dict=json.load(worlds)
 
         for x in data_dict:
-            if (int(x['level']) >= minLvl and int(x['level']) <= maxLvl):
+            if (int(x['level']) >= minLvl and int(x['level']) <= maxLvl) and userWorld == x['world']:
                 if userElection == "All":
                     party.append(x)
                 elif x['vocation'] == userElection:
                     party.append(x)
                 
 
-        return render_template("partyleads.html",data=party,selectedLevel=userLvl,selectedVoc=userElection)
+        return render_template("partyleads.html",data=party,selectedLevel=userLvl,selectedVoc=userElection, selectedWorld = userWorld, worlds = worlds_dict)
     
     else:
-        return render_template("partyleads.html")
+        worlds = open("data/worlds.json","r")
+        worlds_dict=json.load(worlds)
+
+        return render_template("partyleads.html", worlds = worlds_dict)
 
 @app.route("/friends", methods=['GET','POST'])
 def friend():
-    #importlib.reload(getCharacters)
     # if request.method == 'POST':
     #     friends.append(request.form.get('friendName'))
     friends = ['Best Kina', 'Laniakeas', 'Sorczin Hur', 'Aldorusz', 'Vedras', 'Korur']    
@@ -84,4 +86,5 @@ def friend():
 
     return render_template("friends.html",data=friendsOnline)
 
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
