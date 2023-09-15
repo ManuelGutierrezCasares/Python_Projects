@@ -6,7 +6,7 @@
 
 {% block main %}
 
-    <!-- <h1>Check which friends are Online</h1>
+    <h1>Check which friends are Online</h1>
 
     <div class="container">
         <form action="/friends" method="post">
@@ -15,7 +15,15 @@
             </div>
             <button type="submit">Add Friend!</button>
         </form>
-    </div> -->
+    </div>
+    
+    <div class="container">
+            <div class="mb-3">
+                {% for x in friendsList %}
+                <p>{{ x }}</p>
+                {% endfor %}
+            </div>
+    </div>
 
     <table class="table table-hover">
         <tr>

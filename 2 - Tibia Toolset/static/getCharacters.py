@@ -11,7 +11,7 @@ def getCharacters():
     start_time = time()
     print("Start time of get character: " + str(datetime.now()))
 
-    #Setting lists and dicts to work on
+    #Initialize lists and dicts to work on
     online = []
     character = {}
 
@@ -19,21 +19,21 @@ def getCharacters():
     old = "\xa0"
     new = " "
 
-    #Initializing Selenium
+    #Start Selenium
     options = webdriver.ChromeOptions()
     options.page_load_strategy = 'normal'
     options.add_argument("--headless")
     driver = webdriver.Chrome(options = options)
 
-    #Getting worlds from json file
+    #Get worlds from json file
     data = open("data/worlds.json","r")
     worldsList = json.load(data)
 
+    #Iterate over worlds.json
     for w in worldsList:
 
-        #Navigating to first URL to scrape
+        #Navigate to first URL to scrape
         html_doc = driver.get(w['url'])
-        #WebDriverWait(driver,timeout=2)
         sleep(0.5)
         page_source = driver.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
@@ -41,8 +41,7 @@ def getCharacters():
         #Get data from page source
         dataCharacters = soup.find_all('td')
 
-
-        #Generating data for characters
+        #Generate data for characters
         for x in dataCharacters:
 
             try:
@@ -84,8 +83,7 @@ def getCharacters():
     jsonFile = open("data/data.json","w")
     jsonFile.write(jsonString)
 
-    jsonShow = driver.get("file:///E:/Python%20Projects/2%20-%20Tibia%20toolset/data/data.json")
-
+    #Clear Selenium and BS4
     driver.quit()
     soup.clear()
 
@@ -94,4 +92,3 @@ def getCharacters():
     print("End time of get character: " + str(datetime.now()))
     elapsed_time = end_time - start_time
     print("Elapsed time of get character: ", elapsed_time) 
-#print("*************HASTA aca ES CULPA DE GETCHARACTERS*****************")
