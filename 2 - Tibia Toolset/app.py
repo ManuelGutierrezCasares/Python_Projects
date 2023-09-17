@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 import json
 import math
 from datetime import timedelta
-#import static.schedule
+import static.schedule
 
 
 """
@@ -14,9 +14,12 @@ v0.4    Add schedule.py and scheduler to getCharacters.py so you don't have to r
 v0.5    Factorize getCharacters so it get all character from all worlds, not just Collabra
 v0.6    Done on scheduler and error 403 on multiple requests
 v0.7    Add support to run locally
-v0.8    Refactorizing to getWorlds.py and getCharacters.py, instead of all in one python script; and refactorizing schedule to only run getWorlds when necessary; and added world support to partyleads route
-v0.9    Add comments to code; Support to add friends lo look for; session permanent to keep friends for 31 days; support for capitalize friends
-v0.10   WORKING ON... INPUT VALIDATIONS AND QA OVER INPUTS
+v0.8    Refactorizing to getWorlds.py and getCharacters.py, instead of all in one python script; and refactorizing schedule to only run getWorlds when necessary; and added world support to /partyleads route
+v0.9    Add comments to code; Support to add friends lo look for; session permanent to keep friends for 31 days; support for capitalize /friends
+v0.10   Validate /partyleads and /friends inputs; and comments to /friends; and change capitalize() for title() on /friends user input; and Capitalized names when scrapping in getCharacters.py (some old char names don't have each word of name capitalized)
+v0.11   WILL WORK IN VALIDATE IF PLAYER EXIST WHEN ADDING A FRIEND ON /FRIENDS
+
+
 """
 
 #Set up flask app
@@ -24,6 +27,8 @@ app = Flask(__name__)
 #Set up secret key for security issues
 app.secret_key = 'THIS_IS_THE_KEY'
 app.permanent_session_lifetime = timedelta(days=31)
+
+VOCATIONS = ['All', 'Elite Knight', 'Royal Paladin', 'Master Sorcerer', 'Elder Druid']
 
 #Define app routes and logic inside each route
 
@@ -39,27 +44,51 @@ def index():
 #Show possible party members based on user choices
 @app.route("/partyleads", methods=["GET", "POST"])
 def party():
-    
+
     if request.method == "POST":
 
-        userLvl = request.form.get("user")
+        #Validate user lvl
+        if request.form.get("user"):
+            userLvl = request.form.get("user")
+        else:
+            return render_template("error.html",error = "No user Lvl input")
+        
         try:
             userLvl = int(userLvl)
         except:
-            pass
+            return render_template("error.html", error = "Level must be a number")
+        
+        #Calculate max and min lvl to party
         maxLvl = math.floor(userLvl * 3/2)
         minLvl = math.ceil(userLvl * 2/3)
 
-        userElection = request.form.get('voc')
+        #Validate user vocation
+        if request.form.get('voc') in VOCATIONS:
+            userElection = request.form.get('voc')
+        else:
+            return render_template("error.html", error = "Wrong Vocation")
 
-        userWorld = request.form.get('world')
-
-        party = []
-        data = open("data/data.json","r")
-        data_dict = json.load(data)
+        #Get worlds for validation
         worlds = open("data/worlds.json","r")
         worlds_dict=json.load(worlds)
 
+        #Validate user world
+        userWorld = None
+        for x in worlds_dict:
+            if request.form.get('world') == x["worldName"]:
+                userWorld = request.form.get('world')
+                break
+            
+        if not userWorld:
+            return render_template("error.html", error = "Wrong world")
+
+        #Open json data
+        data = open("data/data.json","r")
+        data_dict = json.load(data)
+
+        party = []
+
+        #Check possible party and store it in party list
         for x in data_dict:
             if (int(x['level']) >= minLvl and int(x['level']) <= maxLvl) and userWorld == x['world']:
                 if userElection == "All":
@@ -67,7 +96,6 @@ def party():
                 elif x['vocation'] == userElection:
                     party.append(x)
                 
-
         return render_template("partyleads.html",data=party,selectedLevel=userLvl,selectedVoc=userElection, selectedWorld = userWorld, worlds = worlds_dict)
     
     else:
@@ -93,7 +121,9 @@ def friend():
     #Get new friend if user inputs new friend
     #Validate if friend already exist in friendList
     if request.method == 'POST':
-        userInput = request.form.get('friendName').capitalize()
+        userInput = request.form.get('friendName').title()
+        if not userInput:
+            return render_template("error.html", error = "Can't add blank friend")
         if userInput not in session["friends"]:
             session["friends"].append(userInput)
 

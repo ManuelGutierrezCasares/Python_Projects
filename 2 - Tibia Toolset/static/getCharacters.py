@@ -54,6 +54,7 @@ def getCharacters():
                 if href != None and correct in href and name != None:
                     character['name'] = name.replace(old,new)
                     character['href'] = href.replace(old,new)
+                    character['name'] = character['name'].title()
 
             except:
                 pass
