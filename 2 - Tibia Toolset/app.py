@@ -19,8 +19,9 @@ v0.8    Refactorizing to getWorlds.py and getCharacters.py, instead of all in on
 v0.9    Add comments to code; Support to add friends lo look for; session permanent to keep friends for 31 days; and support for capitalize /friends
 v0.10   Validate /partyleads and /friends inputs; and comments to /friends; and change capitalize() for title() on /friends user input; and Capitalized names when scrapping in getCharacters.py (some old char names don't have each word of name capitalized)
 v0.11   Validate if /friends user input does exist as a character; and refactor all open to with statements to avoid memory leaks; and create a character validator; and improve time of execution of character validator storing validated characters in a json (WILL NEED TO SCHEDULE A MONTHLY PROCCESS TO RECHECK THIS); and create own timer module to refactor the affected parts of the code; and refactor all code to use myTimer module
-
-v0.12 --- WORKING IN GET NAME OF CALLER MODULE FOR myTimer (IT STICKS WITH THE FIRST TIME CALLED because code runs once only on import)
+v0.12   Fix get name of caller module for myTimer
+v0.13   WORKING IN CHANGE FRONTEND TO REACT? MORE TOOLS? WILL SEE...
+        ALSO MIGHT WANT TO ADD A JSON FOR CHARACTERS THAT DONT EXIST ATM FOR PERFORMANCE ISSUES
 
 
 """

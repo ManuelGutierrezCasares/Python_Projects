@@ -19,26 +19,34 @@ startTimer and endTimer
     - Prints the ending time at the moment of usage
     - Prints the difference between starting and ending time at the moment of usage
 
-
     
 """
 
-fileName = path.basename(__file__)
-for x in inspect.stack():
-    print(x.filename)
-    if fileName not in x.filename and "<frozen" not in  x.filename:
-        callerName = path.basename(x.filename)
-        break
+
+def getFileName():
+    fileName = path.basename(__file__)
+    for x in inspect.stack():
+        if fileName not in x.filename and "<frozen" not in  x.filename:
+            callerName = path.basename(x.filename)
+            return callerName
 
 
 
-def startTimer(program=callerName):
+def startTimer(program=None):
+
+    if program == None:
+        program = getFileName()
+
     start_time = time()
     print("Start time of " + program + ": " + str(datetime.now()))
     return start_time
 
 
-def endTimer(start_time, program=callerName):
+def endTimer(start_time, program=None):
+
+    if program == None:
+        program = getFileName()
+
     end_time = time()
     print("End time of " + program + ": " + str(datetime.now()))
     
