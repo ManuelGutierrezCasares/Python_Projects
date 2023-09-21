@@ -1,5 +1,5 @@
-from time import sleep, time
-from datetime import datetime
+from static import myTimer
+from time import sleep
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import json
@@ -7,9 +7,8 @@ import json
 
 
 def getCharacters():
-    #Calculate time spent in function
-    start_time = time()
-    print("Start time of get character: " + str(datetime.now()))
+    #Start myTimer
+    startTimer = myTimer.startTimer()
 
     #Initialize lists and dicts to work on
     online = []
@@ -26,8 +25,8 @@ def getCharacters():
     driver = webdriver.Chrome(options = options)
 
     #Get worlds from json file
-    data = open("data/worlds.json","r")
-    worldsList = json.load(data)
+    with open("data/worlds.json","r") as data:
+        worldsList = json.load(data)
 
     #Iterate over worlds.json
     for w in worldsList:
@@ -81,15 +80,12 @@ def getCharacters():
 
     #Dict Data to Json
     jsonString = json.dumps(online)
-    jsonFile = open("data/data.json","w")
-    jsonFile.write(jsonString)
+    with open("data/data.json","w") as jsonFile:
+        jsonFile.write(jsonString)
 
     #Clear Selenium and BS4
     driver.quit()
     soup.clear()
 
-    #Calculate time spent on function
-    end_time = time()
-    print("End time of get character: " + str(datetime.now()))
-    elapsed_time = end_time - start_time
-    print("Elapsed time of get character: ", elapsed_time) 
+    #End myTimer
+    myTimer.endTimer(startTimer)
