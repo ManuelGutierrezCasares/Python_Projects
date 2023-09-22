@@ -1,0 +1,14 @@
+/*Will customize UI & frontend after finishing functionalities  and choose frontend framework
+:root{
+    --theme-color: white;
+    --primary-color: rgb(125, 226, 209, 1); 
+    --secondary-color: rgb(51, 153, 137, 1);
+    --text-color: rgb(255, 250, 251, 0.87);
+    --text-color-inverse: rgb(0, 5, 4, 0.87); 
+
+}
+
+input{
+    color: var(--hola) !important;
+    background-color: blue !important;
+} */
