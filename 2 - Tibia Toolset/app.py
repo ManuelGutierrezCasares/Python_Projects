@@ -3,7 +3,7 @@ import json
 import math
 from static.validateCharacter import validateCharacter
 from datetime import timedelta
-import static.schedule
+#import static.schedule
 
 
 #Set up flask app
@@ -138,7 +138,16 @@ def friend():
 
     return render_template("friends.html",data=friendsOnline, friendsList = session["friends"])
 
-#clear friends list
+
+#Delete single friend from list
+@app.route("/deletefriend")
+def deleteFriend():
+    name = request.args.get('name')
+    if name in session["friends"]:
+        session["friends"].remove(name)
+    return redirect("/friends")
+
+#Clear friends list
 @app.route("/clearfriends")
 def clearFriends():
     if "friends" in session:

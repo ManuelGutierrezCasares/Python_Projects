@@ -32,6 +32,8 @@ Two scraping scripts are managed through a scheduler to be running as intended.
 "/" for Find Online Players.
 "/partyleads" for Find Party Leads.
 "/friends" for Friends List.
+"/clearfriends" to reset session variable.
+"/deletefriend" to delete specific friend.
 
 - requirements.txt: Keeps track of modules the app uses.
 

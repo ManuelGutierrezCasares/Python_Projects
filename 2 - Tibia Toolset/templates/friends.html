@@ -32,6 +32,7 @@
             <th>Lvl</th>
             <th>Voc</th>
             <th>World</th>
+            <th></th>
         </tr>
         {% for x in data %}
         <tr>
@@ -40,6 +41,7 @@
             <td>{{ x['level'] }}</td>
             <td>{{ x['vocation'] }}</td>
             <td>{{ x['world'] }}</td>
+            <td><a href="/deletefriend?name={{x['name']}}">Delete from Friend List</a></td>
         </tr>
         {% endfor %}
     </table>
