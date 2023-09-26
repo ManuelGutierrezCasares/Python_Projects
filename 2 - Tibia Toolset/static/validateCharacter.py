@@ -50,6 +50,7 @@ def validateCharacter(name):
     if soup.find('div', class_='Text').string == "Could not find character":
         characterExist = False
     else:
+        #timeru = myTimer.startTimer("EL ELSE")
         characterDict = {}
         with open("data/existingCharacters.json", "r+") as data:
             fileContent = data.read()
@@ -63,6 +64,7 @@ def validateCharacter(name):
             data.truncate()
             data.write(json_string)
         characterExist = True
+        #myTimer.endTimer(timeru,"EL ELSE")
     
 
 

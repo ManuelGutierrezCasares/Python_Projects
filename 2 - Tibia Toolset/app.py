@@ -17,13 +17,38 @@ VOCATIONS = ['All', 'Elite Knight', 'Royal Paladin', 'Master Sorcerer', 'Elder D
 #Define app routes and logic inside each route
 
 #Show all characters online
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
+
+    #Get worlds
+    with open("data/worlds.json","r") as worlds:
+        worlds_dict=json.load(worlds)
+    #Get characters
     with open("data/data.json","r") as data:
         data_dict = json.load(data)
-        players = len(data_dict)
 
-    return render_template("index.html", data = data_dict, players = players)
+    #Set default world as Antica
+    currentWorld = 'Antica'
+
+    #Get value of user
+    if request.method == "POST":
+        currentWorld = request.form.get('world')
+        
+        #If all, return all characters
+        if currentWorld == 'All':
+            players = len(data_dict)
+            return render_template("index.html", data = data_dict, players = players, worlds = worlds_dict, currentWorld = currentWorld)
+
+    #Get online characters
+    charactersOnline = []
+    for x in data_dict:
+        if currentWorld == x['world']:
+            charactersOnline.append(x)
+
+    #Get amount of players in current world
+    players = len(charactersOnline)
+
+    return render_template("index.html", data = charactersOnline, players = players, worlds = worlds_dict, currentWorld = currentWorld)
 
 #Show possible party members based on user choices
 @app.route("/partyleads", methods=["GET", "POST"])

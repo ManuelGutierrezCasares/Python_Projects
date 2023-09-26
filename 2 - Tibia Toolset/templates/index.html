@@ -6,7 +6,25 @@
 
 {% block main %}
 
-    Amount of chars ingame: {{ players }}
+    <div class="container">
+        <form action="/" method="post">
+            <div class="mb-3">
+                <select class="form-select" name="world" id="world">
+                    <option value="All">All worlds</option>                    
+                    {% for x in worlds %}
+                        {% if x['worldName'] == currentWorld %}
+                            <option value="{{ x['worldName'] }}" selected>{{ x['worldName'] }}</option>
+                        {% else %}
+                            <option value="{{ x['worldName'] }}">{{ x['worldName'] }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">See characters online</button>
+            </div>
+        </form>
+    </div>
+
+    <h3>Amount of chars ingame: {{ players }}</h3>
 
     <table class="table table-hover">
         <tr>
@@ -17,20 +35,17 @@
             <th>World</th>
         </tr>
         {% for x in data %}
-        <tr>
-            <td>{{ x['name'] }}</td>
-            <td> <a href="{{ x['href'] }}" target="_blank">{{ x['href'] }}</a></td>
-            <td>{{ x['level'] }}</td>
-            <td>{{ x['vocation'] }}</td>
-            <td>{{ x['world'] }}</td>
+        <tr class="data-characters">
+            <td class="data-character-name">{{ x['name'] }}</td>
+            <td class="data-character-url"> <a href="{{ x['href'] }}" target="_blank">{{ x['href'] }}</a></td>
+            <td class="data-character-level">{{ x['level'] }}</td>
+            <td class="data-character-vocation">{{ x['vocation'] }}</td>
+            <td class="data-character-world">{{ x['world'] }}</td>
         </tr>
         {% endfor %}
     </table>
     
 
     
-
-
-
 {% endblock %}
 

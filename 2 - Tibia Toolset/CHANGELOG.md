@@ -12,5 +12,6 @@ v0.10   Validate /partyleads and /friends inputs; and comments to /friends; and 
 v0.11   Validate if /friends user input does exist as a character; and refactor all open to with statements to avoid memory leaks; and create a character validator; and improve time of execution of character validator storing validated characters in a json (WILL NEED TO SCHEDULE A MONTHLY PROCCESS TO RECHECK THIS); and create own timer module to refactor the affected parts of the code; and refactor all code to use myTimer module
 v0.12   Fix get name of caller module for myTimer
 v0.13   Add "CHANGELOG.md", "README.md", "requirements.txt"; change footer in "layout.html"; create styles.css (placeholder for future updates); and typo in "partyleads.html"; add "/deletefriend" to delete specific friend from Friends List
+v0.14   Improve "/" index runtime with loading only 1 server on start up 
 
-v0.14   WORKING IN CHANGE FRONTEND TO REACT? MORE TOOLS? WILL SEE...       ALSO MIGHT WANT TO ADD A JSON FOR CHARACTERS THAT DONT EXIST ATM FOR PERFORMANCE ISSUES
+v0.15   WORKING IN CHANGE FRONTEND TO REACT? MORE TOOLS? WILL SEE...       ALSO MIGHT WANT TO ADD A JSON FOR CHARACTERS THAT DONT EXIST ATM FOR PERFORMANCE ISSUES
