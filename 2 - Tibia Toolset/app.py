@@ -3,7 +3,7 @@ import json
 import math
 from static.validateCharacter import validateCharacter
 from datetime import timedelta
-#import static.schedule
+import static.schedule
 
 
 #Set up flask app
